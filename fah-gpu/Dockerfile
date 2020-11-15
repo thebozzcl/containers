@@ -1,7 +1,7 @@
 # Folding@home GPU Container
 
 # CUDA 9.2 is chosen to be compatable with all drivers v396+
-FROM nvidia/cuda:9.2-base-ubuntu18.04
+FROM thebozzcl/cuda:arm64v8-10-2
 LABEL description="Official Folding@home GPU Container"
 
 RUN apt-get update \
@@ -16,10 +16,8 @@ RUN apt-get update \
     && mkdir -p /etc/fahclient && touch /etc/fahclient/config.xml \
     # download and verify checksum
     && curl -fsSL \
-      https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.6/fahclient_7.6.21_amd64.deb \
+      https://download.foldingathome.org/releases/beta/release/fahclient/debian-stable-arm64/v7.6/fahclient_7.6.14_arm64.deb \
       -o fah.deb \
-    && echo "2827f05f1c311ee6c7eca294e4ffb856c81957e8f5bfc3113a0ed27bb463b094 fah.deb" \
-      | sha256sum -c --strict - \
     # install and cleanup
     && DEBIAN_FRONTEND=noninteractive dpkg --install --force-depends fah.deb \
     && rm -rf fah.deb \
